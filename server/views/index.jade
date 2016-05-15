@@ -1,0 +1,38 @@
+doctype html
+html
+    head
+        title Fablab actimétrie
+        style.
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font: 13px Helvetica, Arial; }
+            #messages { list-style-type: none; margin: 0; padding: 0; }
+            #messages li { padding: 5px 10px; }
+            #messages li:nth-child(odd) { background: #a4a4a4; }
+            #messages li:nth-child(even) { background: #f2f2f2; }
+            #messages li:nth-child(1) { color: #fff; background: #000; }
+
+            #userlist { list-style-type: none; margin: 0; padding: 0; }
+            #userlist li { padding: 5px 10px; }
+            #userlist li:nth-child(odd) { background: #a4a4a4; }
+            #userlist li:nth-child(even) { background: #f2f2f2; }
+            #userlist li:nth-child(1) { color: #fff; background: #000; }
+
+    body
+        ul#userlist
+            li Utilisateurs connectés
+            li Jean
+            li Paul
+            li Marie
+        ul#messages
+            li Evenements
+        script(src='/socket.io/socket.io.js')
+        script(src='http://code.jquery.com/jquery-1.11.1.js')
+        script.
+            // socket.io code for communication with the arduino
+            var socket = io();
+            socket.on('looking at',function(data){
+                $('#messages').append($('<li>').text(data));
+            });
+            socket.on('new member', function(newMember){
+                $('#userlist').append($('<li>').text(newMember));
+            });

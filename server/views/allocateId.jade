@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    h1 Ajout d'une nouvelle personne
+    form(enctype='application/json',method="post")
+        div.input
+            input(type="string", name="name")
+        div.actions
+            input(type='submit',value="ok")
+
+    script(src="/socket.io/socket.io.js")
+    script(src="http://code.jquery.com/jquery-1.11.1.js")
+    script().
+        var socket = io();
+        $('form').submit(function () {
+            socket.emit('new member',$('form').get(0));
+            return true;
+        });
