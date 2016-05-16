@@ -5,8 +5,8 @@
 // Wifi 
 WiFiClient client;
 IPAddress server(192, 168, 1, 40);
-char ssid[] = "Bbox-1FB75992";     // the name of your network
-char pass[] = "nataliavodianova";
+char ssid[] = "ssid";     // the name of your network
+char pass[] = "pass";
 int status = WL_IDLE_STATUS;     // the Wifi radio's status
 
 // Receiving and decoding IR signals
