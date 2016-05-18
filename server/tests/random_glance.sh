@@ -21,6 +21,7 @@ do
     looking_at=$(( (RANDOM % ($nb_persons)) + 1))
     if [ "$looking_at" -ne "$my_id" ]; then
         curl --data "ownId=""$my_id""&otherId=""$looking_at" "$url"
+	echo ''
     fi
-    sleep $(( (RANDOM % 2) + 1))
+    sleep $(( (RANDOM % 2) + 1 ))
 done;

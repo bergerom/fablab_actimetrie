@@ -11,6 +11,8 @@ app.use(bodyparser.urlencoded({ extended: false}));
 // Fichiers statiques situés dans /public/*
 app.use(express.static('public'));
 
+var begin = new Date();
+
 /* SOCKET.IO */
 const io = require('socket.io')(http);
 io.on('connection',function(socket){
@@ -39,17 +41,21 @@ app.post('/allocateId',function(req,res){
     res.send(name + " a bien été ajouté.");
 });
 
+/*
 app.get('/allocateId',function(req,res){
     res.type('text/html');
     res.render('allocateId.jade');
 });
+*/
 
-// main root
+// route principale
 app.get('/',function(req,res){
     res.type('text/html');
     res.render('index.jade');
 });
 
+// Evenement
+var results = [];
 app.post('/event',function(req,res){
     console.log("POST !");
     console.log(req.body);
@@ -59,14 +65,24 @@ app.post('/event',function(req,res){
     }
     var ownId = req.body.ownId;
     var otherId = req.body.otherId;
+    var now = new Date();
+    var deltaTime = now - begin;
+    // On enregistre les résultats dans un tableau
+    results.push({time:deltaTime,
+        person:ownId,lookingAt:otherId});
     io.emit('looking at', ownId + " regarde " +  otherId);
     res.type('text/plain');
     res.send(ownId + " regarde " +  otherId);
 });
-
 app.get('/event',function(req,res){
     res.type('text/html');
     res.render('eventSubmit.jade');
+});
+
+// Méthode de l'API pour récupérer les résultats
+app.get('/getResults',function(req,res){
+    res.type('text/html');
+    res.send(JSON.stringify(results));
 });
 
 http.listen(3000, function(){
